@@ -12,8 +12,14 @@ import com.udacity.asteroidradar.databinding.FragmentMainBinding
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
+    private lateinit var asteroidAdapter: AsteroidAdapter
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getAsteroidsOfTheDay()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +32,16 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val asteroidAdapter = AsteroidAdapter()
-        asteroidAdapter.submitList(asteroidList)
-
+        asteroidAdapter = AsteroidAdapter()
         binding.asteroidRecycler.adapter = asteroidAdapter
         addMenuOptions()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.asteroidsLiveData.observe(viewLifecycleOwner) {
+            it?.let(asteroidAdapter::submitList)
+        }
     }
 
 

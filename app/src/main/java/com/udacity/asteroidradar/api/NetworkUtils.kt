@@ -1,11 +1,25 @@
 package com.udacity.asteroidradar.api
 
+import android.annotation.SuppressLint
 import com.udacity.asteroidradar.data.Asteroid
 import com.udacity.asteroidradar.utils.Constants
+import okhttp3.OkHttpClient
 import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+
+val neowsApi: NeowsApi by lazy {
+    val serviceBuilder = Retrofit.Builder()
+        .baseUrl(Constants.BASE_URL)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .build()
+
+    serviceBuilder.create(NeowsApi::class.java)
+}
+
 
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")

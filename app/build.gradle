@@ -5,6 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-android-extensions'
 
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def apiKey = properties.get "apiKey"
+
 android {
     compileSdkVersion 33
     defaultConfig {
@@ -14,6 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField ("String", "API_KEY", apiKey)
     }
     buildTypes {
         release {
