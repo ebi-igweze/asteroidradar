@@ -5,6 +5,7 @@ import android.view.*
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.data.asteroidList
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
@@ -20,6 +21,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getAsteroidsOfTheDay()
+        viewModel.getPictureOfTheDay()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +43,18 @@ class MainFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.asteroidsLiveData.observe(viewLifecycleOwner) {
             it?.let(asteroidAdapter::submitList)
+        }
+
+        viewModel.picOfTheDay.observe(viewLifecycleOwner) {
+            it?.let { pic ->
+                if (pic.mediaType == MEDIA_TYPE_IMAGE) {
+                    Picasso.with(requireContext())
+                        .load(pic.url)
+                        .placeholder(R.drawable.placeholder_picture_of_day)
+                        .error(R.drawable.placeholder_picture_of_day)
+                        .into(binding.imageOfTheDay)
+                }
+            }
         }
     }
 
@@ -70,5 +84,8 @@ class MainFragment : Fragment() {
         // TODO filter list by menu
     }
 
+    companion object {
+        private const val MEDIA_TYPE_IMAGE = "image"
+    }
 
 }

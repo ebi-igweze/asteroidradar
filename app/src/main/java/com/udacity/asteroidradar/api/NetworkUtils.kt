@@ -6,6 +6,7 @@ import com.udacity.asteroidradar.utils.Constants
 import okhttp3.OkHttpClient
 import org.json.JSONObject
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,6 +16,7 @@ val neowsApi: NeowsApi by lazy {
     val serviceBuilder = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
     serviceBuilder.create(NeowsApi::class.java)
