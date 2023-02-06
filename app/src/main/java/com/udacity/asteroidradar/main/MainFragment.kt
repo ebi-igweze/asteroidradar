@@ -22,8 +22,6 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // TODO show and hide  progress bar
         viewModel.getAsteroidsOfTheDay()
         viewModel.getPictureOfTheDay()
     }
@@ -31,7 +29,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentMainBinding.inflate(inflater)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         return binding.root
     }
@@ -45,6 +43,14 @@ class MainFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            it?.let { isLoading ->
+                binding.statusLoadingWheel.visibility =
+                    if(isLoading) View.VISIBLE
+                    else View.GONE
+            }
+        }
+
         viewModel.asteroidsLiveData.observe(viewLifecycleOwner) {
             it?.let(asteroidAdapter::submitList)
         }
