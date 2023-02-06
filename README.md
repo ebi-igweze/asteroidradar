@@ -2,6 +2,9 @@
 
 Asteroid Radar
 
+# NOTE
+To build the app successfully make sure to include your api-key, check step 3. of the installation process below.
+
 ## Getting Started
 
 Asteroid Radar is an app to view the asteroids detected by NASA that pass near Earth, you can view all the detected asteroids in a period of time, their data (Size, velocity, distance to Earth) and if they are potentially hazardous.
@@ -77,7 +80,12 @@ This branch is going to let you start working with it. The command to check out 
 git checkout master
 ```
 
-**Step 3: Run the project and check that it compiles correctly**
+**Step 3: Get an api key and include in the project**
+
+To build the project successfully you have to get an __api-key__ from https://api.nasa.gov/ and include int in ``local.properties`` file, with the value assigned to __apiKey__ property.
+
+
+**Step 4: Run the project and check that it compiles correctly**
 
 Open the project in Android Studio and click the Run ‘app’ button, check that it runs correctly and you can see the app in your device or emulator.
 
