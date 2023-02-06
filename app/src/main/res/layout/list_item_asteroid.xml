@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@{asteroid.codename}"
+            android:contentDescription="@string/content_description_asteroids_code_name"
             android:textColor="@color/default_text_color"
             tools:text="(2018 BA39)"
             />
@@ -36,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:contentDescription="@string/close_approach_data_title"
             app:layout_constraintTop_toBottomOf="@id/asteroid_title"
             android:text="@{asteroid.closeApproachDate}"
             android:textColor="@color/default_text_color"

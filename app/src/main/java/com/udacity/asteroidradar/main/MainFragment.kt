@@ -22,6 +22,8 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // TODO show and hide  progress bar
         viewModel.getAsteroidsOfTheDay()
         viewModel.getPictureOfTheDay()
     }
@@ -55,6 +57,12 @@ class MainFragment : Fragment() {
                         .placeholder(R.drawable.placeholder_picture_of_day)
                         .error(R.drawable.placeholder_picture_of_day)
                         .into(binding.imageOfTheDay)
+
+                    // set image content description
+                    binding.imageOfTheDay.contentDescription = getString(
+                        R.string.nasa_picture_of_day_content_description_format,
+                        pic.title
+                    )
                 }
             }
         }
