@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.udacity.asteroidradar.BuildConfig
-import com.udacity.asteroidradar.api.NeowsApi
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.api.toDate
-import com.udacity.asteroidradar.api.toFormattedString
+import com.udacity.asteroidradar.api.*
 import com.udacity.asteroidradar.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,8 +21,7 @@ class AsteroidRepository(
     suspend fun getTodaysAsteroids(): LiveData<List<Asteroid>> = liveData {
 
         // get saved asteroids
-        val date =  Calendar.getInstance().time.toFormattedString()
-        val today = date.toDate().time
+        val today = todayDate().time
         val savedAsteroids = db.getAsteroidDao().getAsteroidsFromToday(today).map {
                it.map { asteroidEntity -> asteroidEntity.toAsteroid() }
         }

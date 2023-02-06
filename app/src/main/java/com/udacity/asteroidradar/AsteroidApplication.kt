@@ -17,31 +17,29 @@ class AsteroidApplication: Application() {
         instance = this
     }
 
-    companion object {
-        private lateinit var instance: AsteroidApplication
-        val database: AsteroidDatabase by lazy {
-            Room.databaseBuilder(
-                instance,
-                AsteroidDatabase::class.java,
-                AsteroidDatabase.DB_NAME
-            )
-                .fallbackToDestructiveMigration()
-                .build()
-        }
+    private lateinit var instance: AsteroidApplication
 
-        val repository: AsteroidRepository by lazy {
-            AsteroidRepository(database, neowsApi)
-        }
+    val database: AsteroidDatabase by lazy {
+        Room.databaseBuilder(
+            instance,
+            AsteroidDatabase::class.java,
+            AsteroidDatabase.DB_NAME
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
-        val neowsApi: NeowsApi by lazy {
-            val serviceBuilder = Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build()
+    val repository: AsteroidRepository by lazy {
+        AsteroidRepository(database, neowsApi)
+    }
 
-            serviceBuilder.create(NeowsApi::class.java)
-        }
+    val neowsApi: NeowsApi by lazy {
+        val serviceBuilder = Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
 
+        serviceBuilder.create(NeowsApi::class.java)
     }
 }

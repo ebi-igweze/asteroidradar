@@ -14,7 +14,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var asteroidAdapter: AsteroidAdapter
     private val viewModelFactory: MainViewModelFactory by lazy {
-        MainViewModelFactory()
+        MainViewModelFactory(requireContext())
     }
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
