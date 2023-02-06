@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val repository: AsteroidRepository = AsteroidRepository.getInstance()
+    private val repository: AsteroidRepository
 ) : ViewModel() {
 
     private val _asteroidsLiveData = MediatorLiveData<List<Asteroid>>()
@@ -24,7 +24,7 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val asteroids = repository.getTodaysAsteroids()
             withContext(Dispatchers.Main) {
-                _asteroidsLiveData.addSource(asteroids.asLiveData()) { value ->
+                _asteroidsLiveData.addSource(asteroids) { value ->
                     _asteroidsLiveData.setValue(value)
                 }
             }
@@ -32,10 +32,10 @@ class MainViewModel(
     }
 
     fun getPictureOfTheDay() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO)  {
             val pictureOfTheDay = repository.getPictureOfTheDay()
             withContext(Dispatchers.Main) {
-                _picOfTheDay.addSource(pictureOfTheDay.asLiveData()) { value ->
+                _picOfTheDay.addSource(pictureOfTheDay) { value ->
                     _picOfTheDay.setValue(value)
                 }
             }
